@@ -1,17 +1,3 @@
-var traverseDirectory = function traverseDirectory(dir, filelist) {
-    var files = fs.readdirSync(dir);
-    filelist = filelist || [];
-    files.forEach(function(file) {
-        if (fs.statSync(dir + file).isDirectory() && file.charAt(0) != '.') {
-            filelist = traverseDirectory(dir + file + '/', filelist);
-        }
-        else if(file.charAt(0) != '.'){
-            filelist.push(dir + file);
-        }
-    });
-    return filelist;
-};
-
 var configurationParser = function configurationParser(dataToParse){
     dataToParse = dataToParse.replace(/\n/gm, '');
     var commands = dataToParse.match(/\/\*:.+\*\//m);
@@ -34,7 +20,7 @@ var harvestDirectory = function harvestDirectory(directory, harvester) {
     return arrayOfTestFiles;
 }
 
-var fs = require("fs");
+var traverseDirectory = require("../traverse-directory/traverse-directory");
 var arrayOfFiles, arrayOfTestFiles;
 
 ( module || {} ).exports.harvestDirectory = harvestDirectory;
